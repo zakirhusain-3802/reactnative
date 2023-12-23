@@ -3,30 +3,18 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import commonStyle from '../syles/style'
-import { signOut } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import commonStyle from '../syles/style';
 import UserHome from '../userScreen/UserHome';
-import useAuth from "../hooks/useAuth";
 const Stack = createNativeStackNavigator();
 
-import {
-  doc,
-  setDoc,
-  collection,
-  getFirestore,
-  getDocs,
-  getDoc,
-} from "firebase/firestore";
+
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function HomeScreen() {
 
  
-  const handlelogout = async()=>{
-    await signOut(auth);
-  }
+  
   return (
     <NavigationContainer>
       <Stack.Navigator

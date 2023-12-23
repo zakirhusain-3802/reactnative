@@ -4,54 +4,23 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import AdminScreen from "../screens/admin"; // Import your AdminScreen component
+
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import UserHome from '../userScreen/UserHome';
 import UserMonthly from '../userScreen/UserMonthly';
-import useAuth from "../hooks/useAuth";
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
-import {
-  doc,
-  setDoc,
-  collection,
-  getFirestore,
-  getDocs,
-  getDoc,
-} from "firebase/firestore";
-import { auth, db } from "../config/firebase";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
-  const { user } = useAuth();
+
   const [role, setRole] = useState(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (user) {
-        const userDocRef = doc(db, "users", user.uid);
-
-        try {
-          const userSnapshot = await getDoc(userDocRef);
-
-          if (userSnapshot.exists()) {
-            const userData = userSnapshot.data();
-            setRole(userData.role);
-          } else {
-            console.log("User data not found.");
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error.message);
-        }
-      }
-    };
-
-    fetchUserData();
-  }, [user]);
 
  
   if (user) {

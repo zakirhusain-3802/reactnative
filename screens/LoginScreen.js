@@ -8,14 +8,14 @@ import {
   StatusBar,
   Dimensions,
   Platform,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 import commonStyle from "../syles/style";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { supabase } from '../lib/supabase'
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -24,21 +24,19 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSumbit = async () => {
-    if (email && password) {
-      try {
-        const loginUser = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
 
-        console.log("\n loginuser: ", loginUser);
-      } catch (err) {
-        console.log(" got error: ", err.message);
-      }
-    }
-  };
+  async function signInWithEmail() {
+    // setLoading(true)
+    const { error,data } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    })
+    console.log(data)
+   
+
+    if (error) Alert.alert(error.message)
+    // setLoading(false)
+  }
   return (
     <View style={{ flex: 1, backgroundColor: themeColors.bg }}>
       <StatusBar backgroundColor={themeColors.bg} barStyle="dark-content" />
@@ -101,7 +99,7 @@ export default function LoginScreen() {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={handleSumbit}
+            onPress={signInWithEmail}
             style={{
               paddingVertical: 12,
               backgroundColor: "#FFD700", // Yellow color
