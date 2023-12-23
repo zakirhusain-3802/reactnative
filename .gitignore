@@ -36,4 +36,5 @@ yarn-error.*
 
 config/firebase.js
 
-lib/supabase.js
+# lib/supabase.js
+.env
